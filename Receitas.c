@@ -6,10 +6,13 @@ struct receita{
     char nome[100];
     char ingredientes[500];
     char instrucoes[1000];
+    char categorias[100];
     int tempo_preparo_minutos;
 };
 
-void mostrarReceita(struct receita criarReceita) {
+typedef struct receita receita;
+
+void mostrarReceita(receita criarReceita) {
     printf("Nome: %s\n", criarReceita.nome);
     printf("Ingredientes: %s\n", criarReceita.ingredientes);
     printf("Instrucoes: %s\n", criarReceita.instrucoes);
@@ -17,7 +20,7 @@ void mostrarReceita(struct receita criarReceita) {
     printf("-------------\n");
 }
 
-void adicionarReceita(struct receita criarReceita[], int *total) {
+void adicionarReceita(receita criarReceita[], int *total int *categoria) {
     printf("1. Adicionar receita\n");
     
     printf("Digite o nome da receita: ");
@@ -38,11 +41,16 @@ void adicionarReceita(struct receita criarReceita[], int *total) {
     printf("Digite o tempo de preparo em minutos: ");
     scanf("%d", &criarReceita[*total].tempo_preparo_minutos);
     fflush(stdin);
+
+    printf("Digite a categoria: ");
+    fgets(criarReceita[*categoria].categorias, 100, stdin);
+    criarReceita[*categoria].[strcspn(criarReceita[*categoria].categorias, "\n")] = '\0';
+    fflush(stdin);
       
     (*total)++;
 }
 
-void listarReceitas(struct receita criarReceita[], int total){
+void listarReceitas(receita criarReceita[], int total){
     printf("2. Listar receitas\n\n");
 
     if(total == 0){
@@ -56,7 +64,7 @@ void listarReceitas(struct receita criarReceita[], int total){
     }                
 }
 
-void buscarReceita(struct receita criarReceitas[], int total){
+void buscarReceita(receita criarReceitas[], int total){
     char buscarReceita[100];
     int encontrado = 0;
     int i;
@@ -80,9 +88,8 @@ void buscarReceita(struct receita criarReceitas[], int total){
     }
 }
 
-void categoriaReceita(struct receita criarReceita[], int total){
+void categoriaReceita(struct receita criarReceita[], int total int categoria){
     int opcao2;
-    char categorias[100];
 
     enum categorias { ENTRADA, PRATO_PRINCIPAL, SOBREMESA, BEBIDA, LANCHE};
 
