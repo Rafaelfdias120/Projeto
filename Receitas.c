@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define max_receitas 50
-
+ 
 struct receita{
     char nome[100];
     char ingredientes[500];
@@ -16,11 +16,43 @@ typedef struct receita receita;
 
 void definirCategoria(int cat, char *categoEcolhida);
 
+void carregarReceitasPadrao(receita receitas[], int *total){
+    strcpy(receitas[*total].nome, "Bolo de Chocolate");
+    strcpy(receitas[*total].ingredientes, "Farinha, ovos, chocolate, leite, acucar");
+    strcpy(receitas[*total].instrucoes, "Misture tudo e asse por 30 minutos.");
+    strcpy(receitas[*total].categorias, "Sobremesa");
+    receitas[*total].tempo_preparo_minutos = 40;
+    (*total)++;
+
+    strcpy(receitas[*total].nome, "Suco de Laranja");
+    strcpy(receitas[*total].ingredientes, "Laranjas, agua, acucar");
+    strcpy(receitas[*total].instrucoes, "Esprema as laranjas, misture com agua e acucar.");
+    strcpy(receitas[*total].categorias, "Bebida");
+    receitas[*total].tempo_preparo_minutos = 5;
+    (*total)++;
+
+    strcpy(receitas[*total].nome, "Bolo de trigo");
+    strcpy(receitas[*total].ingredientes, "2. copos de acucar 3. colheres de sopa de manteiga");
+    strcpy(receitas[*total].instrucoes, "Junte o acucar e a manteiga.");
+    strcpy(receitas[*total].categorias, "Lanche");
+    receitas[*total].tempo_preparo_minutos = 15;
+    (*total)++;
+
+    strcpy(receitas[*total].nome, "Creme de milho");
+    strcpy(receitas[*total].ingredientes, "1. lata de milho, 3. xicara de leite frio");
+    strcpy(receitas[*total].instrucoes, "Bata no liquidificador metade da lata de milho");
+    strcpy(receitas[*total].categorias, "Prato principal");
+    receitas[*total].tempo_preparo_minutos = 25;
+    (*total)++;
+
+}
+
 void mostrarReceita(receita criarReceita) {
     printf("Nome: %s\n", criarReceita.nome);
     printf("Ingredientes: %s\n", criarReceita.ingredientes);
     printf("Instrucoes: %s\n", criarReceita.instrucoes);
     printf("Tempo de preparo: %d\n", criarReceita.tempo_preparo_minutos);
+    printf("Categoria: %s\n",criarReceita.categorias);
     printf("-------------\n");
 }
 
@@ -34,7 +66,6 @@ void adicionarReceita(receita criarReceita[], int *total) {
     printf("1. Adicionar receita\n");
 
     printf("Digite o nome da receita: ");
-    while (getchar() != '\n');
     fgets(criarReceita[*total].nome, 100, stdin);
     criarReceita[*total].nome[strcspn(criarReceita[*total].nome, "\n")] = '\0';
     fflush(stdin);
@@ -58,9 +89,9 @@ void adicionarReceita(receita criarReceita[], int *total) {
 
     int catEscolhida;
     printf("----Categorias disponiveis----\n");
-    printf("1. Entrada.\n");
-    printf("2. Prato principal.\n");
-    printf("3. Sobremesa.\n");
+    printf("1. Entrada\n");
+    printf("2. Prato principal\n");
+    printf("3. Sobremesa\n");
     printf("4. Bebida\n");
     printf("5. Lanche\n");
     printf("Digite o numero da categoria (1-5): ");
@@ -167,7 +198,7 @@ void categoriaReceita(receita criarReceita[], int total){
     printf("4. Bebida\n");
     printf("5. Lanche\n");
     printf("Escolha uma categoria: ");
-    if (scanf("%d", &opcao2) != 1 || opcao2 < 1 opcao2 || opcao2 > 5){
+    if (scanf("%d", &opcao2) != 1 || opcao2 < 1 || opcao2 > 5){
         printf("Opcao inavalida. Voltando ao menu. \n");
         while(getchar() != '\n');
         return;
@@ -212,6 +243,8 @@ int main(){
     int opcao;
     int totalReceitas = 0;
     receita nomes[100];
+
+    carregarReceitasPadrao(nomes, &totalReceitas);
 
     do{
         printf("\n---MENU---\n");
