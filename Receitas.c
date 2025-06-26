@@ -16,7 +16,7 @@ typedef struct receita receita;
 
 void definirCategoria(int cat, char *categoEcolhida);
 
-void carregarReceitasPadrao(receita receitas[], int *total){
+void carregarReceitasPadrao(receita receitas[], int *total) {
     strcpy(receitas[*total].nome, "Bolo de Chocolate");
     strcpy(receitas[*total].ingredientes, "Farinha, ovos, chocolate, leite, acucar");
     strcpy(receitas[*total].instrucoes, "Misture tudo e asse por 30 minutos.");
@@ -44,9 +44,14 @@ void carregarReceitasPadrao(receita receitas[], int *total){
     strcpy(receitas[*total].categorias, "Prato principal");
     receitas[*total].tempo_preparo_minutos = 25;
     (*total)++;
-
 }
-
+/*
+ * Função: mostrarReceita
+ * -----------------------
+ * Exibe todos os dados de uma receita na tela.
+ *
+ * criarReceita: estrutura do tipo receita a ser exibida.
+ */
 void mostrarReceita(receita criarReceita) {
     printf("Nome: %s\n", criarReceita.nome);
     printf("Ingredientes: %s\n", criarReceita.ingredientes);
@@ -55,6 +60,14 @@ void mostrarReceita(receita criarReceita) {
     printf("Categoria: %s\n",criarReceita.categorias);
     printf("-------------\n");
 }
+/*
+ * Função: adicionarReceita
+ * -------------------------
+ * Adiciona uma nova receita no vetor de receitas.
+ *
+ * criarReceita: vetor de receitas onde será adicionada a nova.
+ * total: ponteiro para o total de receitas cadastradas.
+ */
 
 void adicionarReceita(receita criarReceita[], int *total) {
 
@@ -106,7 +119,14 @@ void adicionarReceita(receita criarReceita[], int *total) {
       
     (*total)++;
 }
-
+/*
+ * Função: listarReceitas
+ * -----------------------
+ * Mostra os nomes das receitas e permite ao usuário escolher uma para ver os detalhes.
+ *
+ * criarReceita: vetor com todas as receitas.
+ * total: número total de receitas cadastradas.
+ */
 void listarReceitas(receita criarReceita[], int total){
     printf("2. Listar receitas\n\n");
 
@@ -138,7 +158,14 @@ void listarReceitas(receita criarReceita[], int total){
     printf("\n--- Detalhes da Receita %d ---\n", indice);
     mostrarReceita(criarReceita[indice - 1]);
 }
-
+/*
+ * Função: buscarReceita
+ * ----------------------
+ * Busca uma receita pelo nome e exibe seus detalhes.
+ *
+ * criarReceitas: vetor com todas as receitas.
+ * total: número total de receitas cadastradas.
+ */
 void buscarReceita(receita criarReceitas[], int total){
     char buscarReceita[100];
     int encontrado = 0;
@@ -161,7 +188,14 @@ void buscarReceita(receita criarReceitas[], int total){
         printf("Receita nao encontrada.\n");
     }
 }
-
+/*
+ * Função: definirCategoria
+ * ------------------------
+ * Define o nome da categoria com base no número escolhido.
+ *
+ * cat: número da categoria (1 a 5).
+ * categoriaStr: string onde será armazenado o nome da categoria.
+ */
 void definirCategoria(int cat, char *categoriaStr) {
     switch(cat) {
         case 1: 
@@ -184,6 +218,14 @@ void definirCategoria(int cat, char *categoriaStr) {
         break;
     }
 }
+/*
+ * Função: categoriaReceita
+ * -------------------------
+ * Lista todas as receitas que pertencem a uma categoria escolhida pelo usuário.
+ *
+ * criarReceita: vetor com todas as receitas.
+ * total: número total de receitas cadastradas.
+ */
 
 void categoriaReceita(receita criarReceita[], int total){
     int opcao2;
