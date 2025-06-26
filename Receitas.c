@@ -34,6 +34,7 @@ void adicionarReceita(receita criarReceita[], int *total) {
     printf("1. Adicionar receita\n");
 
     printf("Digite o nome da receita: ");
+    while (getchar() != '\n');
     fgets(criarReceita[*total].nome, 100, stdin);
     criarReceita[*total].nome[strcspn(criarReceita[*total].nome, "\n")] = '\0';
     fflush(stdin);
@@ -49,9 +50,11 @@ void adicionarReceita(receita criarReceita[], int *total) {
     fflush(stdin);
     
     printf("Digite o tempo de preparo em minutos: ");
-    scanf("%d", &criarReceita[*total].tempo_preparo_minutos);
-    getchar();
-    fflush(stdin);
+    if (scanf("%d", &criarReceita[*total].tempo_preparo_minutos) != 1 || criarReceita[*total].tempo_preparo_minutos < 0) {
+    printf("Tempo invalido. Receita nao sera adicionada.\n");
+    while (getchar() != '\n');
+    return;
+    }
 
     int catEscolhida;
     printf("----Categorias disponiveis----\n");
@@ -61,12 +64,14 @@ void adicionarReceita(receita criarReceita[], int *total) {
     printf("4. Bebida\n");
     printf("5. Lanche\n");
     printf("Digite o numero da categoria (1-5): ");
-    scanf("%d", &catEscolhida);
-    getchar();
-    fflush(stdin); 
+
+    if (scanf("%d", &catEscolhida) != 1 || catEscolhida < 1 || catEscolhida > 5) {
+    printf("Categoria invalida. Receita nao sera adicionada.\n");
+    while (getchar() != '\n');
+    return;
+    }
 
     definirCategoria(catEscolhida, criarReceita[*total].categorias);
-
       
     (*total)++;
 }
@@ -79,10 +84,28 @@ void listarReceitas(receita criarReceita[], int total){
         return;
     }
 
+    printf("----Receitas disponiveis----\n");
     for ( int i = 0; i < total; i++){
-        printf("Receita %d:\n", i + 1);
-        mostrarReceita(criarReceita[i]);
-    }                
+        printf("Receita %d: %s\n", i + 1,  criarReceita[i].nome);
+    }
+    
+   int indice;
+   printf("\nDigite o numero da receita que deseja ver( 0 para voltar): ");
+   scanf("%d", &indice);
+   getchar();
+
+   if (indice == 0){
+    printf("Voltando para o menu...\n");
+    return;
+   }
+
+   if (indice < 1 || indice > total){
+    printf("Numero invalido. Nenhuma receita sera exibida.\n");
+    return;
+   }
+
+    printf("\n--- Detalhes da Receita %d ---\n", indice);
+    mostrarReceita(criarReceita[indice - 1]);
 }
 
 void buscarReceita(receita criarReceitas[], int total){
@@ -143,10 +166,13 @@ void categoriaReceita(receita criarReceita[], int total){
     printf("3. Sobremesa\n");
     printf("4. Bebida\n");
     printf("5. Lanche\n");
-
     printf("Escolha uma categoria: ");
-    scanf("%d", &opcao2);
-    getchar();
+    if (scanf("%d", &opcao2) != 1 || opcao2 < 1 opcao2 || opcao2 > 5){
+        printf("Opcao inavalida. Voltando ao menu. \n");
+        while(getchar() != '\n');
+        return;
+    }
+    
 
     switch(opcao2){
     case ENTRADA: 
@@ -182,6 +208,7 @@ void categoriaReceita(receita criarReceita[], int total){
 }
 
 int main(){
+
     int opcao;
     int totalReceitas = 0;
     receita nomes[100];
@@ -194,8 +221,13 @@ int main(){
         printf("4. Buscar receitas por categoria\n");
         printf("5. Sair\n");
         printf("Escolha uma opcao: ");
-        scanf("%d", &opcao);
-        getchar();
+        if (scanf("%d", &opcao) != 1) {
+            printf("Entrada invalida. Por favor, digite um numero.\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        getchar(); // consome o '\n' restante do buffer após scanf
         
         switch (opcao){
             case 1:
